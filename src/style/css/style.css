@@ -1,5 +1,21 @@
+@font-face {
+    font-family: 'DancingScript';
+    src: url("../../fonts/DancingScript-VariableFont_wght.ttf");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'Lora';
+    src: url("../../fonts/Lora-VariableFont_wght.ttf");
+    font-style: normal;
+    font-weight: normal;
+}
+
 :root {
-    --main-color: #000000;
+    /*--bars-color: #F8F9F9;*/
+    --bars-color: rgba(240, 240, 240, 0.75);
+    --txt-main-color: #000000;
 }
 
 * {
@@ -15,11 +31,12 @@ html {
 }
 
 body {
+    font-family: 'Lora';
     font-size: 1.6rem;
     background-image: url("../../img/forest/forest-B.jpg");
     background-repeat: no-repeat;
     background-size: cover;
-    background-color: var(--main-color);
+    background-color: black;
 }
 
 .box-border {
@@ -29,7 +46,21 @@ body {
 header {
     width: 100vw;
     height: 10vh;
-    /*background-color: yellow;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bars-color);
+}
+
+div.logo-title {
+    width: 35%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div.logo-title > h1 {
+    font-family: 'DancingScript';
 }
 
 main {
@@ -39,7 +70,39 @@ main {
 .sectionA {
     width: 20vw;
     height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     /*background-color: aqua;*/
+}
+
+div.rules-container {
+    width: 85%;
+    height: 95%;
+    padding: 1rem;
+    margin: 0.5rem auto;
+    border-radius: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    background-color: var(--bars-color);
+}
+
+div.rules-container > h2 {
+    font-family: 'DancingScript';
+    font-size: 3rem;
+}
+
+ol.the-rules {
+    padding: 0.75rem;
+    margin: 0.5rem;
+}
+
+ol.the-rules li {
+    margin: 0.75rem auto;
+    text-align: center;
+    font-weight: bolder;
 }
 
 .sectionB {
@@ -142,5 +205,5 @@ span.hunter img {
 footer {
     width: 100vw;
     height: 10vh;
-    /*background-color: red;*/
+    background-color: var(--bars-color);
 }
