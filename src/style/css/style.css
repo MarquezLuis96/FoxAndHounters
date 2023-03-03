@@ -1,0 +1,93 @@
+:root {
+    --main-color: #000000;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+}
+
+html {
+    font-size: 62.5%;
+    font-family: serif;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-size: 1.6rem;
+    background-image: url("../../img/forest/forest-B.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: var(--main-color);
+}
+
+.box-border {
+    border: red 1px dashed;
+}
+
+header {
+    width: 100vw;
+    height: 10vh;
+    /*background-color: yellow;*/
+}
+
+main {
+    display: flex;
+}
+
+.sectionA {
+    width: 20vw;
+    height: 80vh;
+    /*background-color: aqua;*/
+}
+
+.sectionB {
+    width: 60vw;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*background-color: blue;*/
+}
+
+.gameboard-container {
+    width: 50rem;
+    height: 50rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*background-color: magenta;*/
+}
+
+.gameboard-container__gameboard {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: cyan;
+}
+
+.gameboard__square--w {
+    width: 12.5%;
+    height: 12.5%;
+    background-color: white;
+}
+
+.gameboard__square--b {
+    width: 12.5%;
+    height: 12.5%;
+    background-color: black;
+}
+
+.sectionC {
+    width: 20vw;
+    height: 80vh;
+    /*background-color: aquamarine;*/
+}
+
+footer {
+    width: 100vw;
+    height: 10vh;
+    /*background-color: red;*/
+}
