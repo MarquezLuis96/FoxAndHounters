@@ -7,6 +7,113 @@ class Board {
         this.focussedPiece = null;
         this.gameover = false;
     }
+
+    //Verifica si el movimiento que recibe es válido para la pieza que recibe
+    isValidMove(piece, x, y) {
+        //Todos los posibles escenarios son verificados antes de retornar true lo cual indicaría un movimiento válido
+
+        //Primer fallo: Cuando cualquier pieza intenta hacer un movimiento al mismo sitio en el que está
+        if(piece.x === x && piece.y === y) {
+            return false;
+        }
+
+        //Segundo fallo: Cuando un "Hunter" o cazador intenta moverse hacia atrás
+        if(piece.name === "Hunter" && y < piece.y) {
+            return false;
+        }
+
+        //Tercer fallo: Cuando cualquier pieza intenta hacer un movimiento que no sea en diagonal en el eje x
+        if(piece.x + 1 !== x && piece.x - 1 !== x) {
+            return false;
+        }
+
+        //Cuarto fallo: Cuando cualquier pieza intenta hacer un movimiento que no sea en diagonal en el eje y
+        if(piece.y + 1 !== y && piece.y - 1 !== y) {
+            return false;
+        }
+
+        //Quinto fallo: Si el nuevo sitio se encuentra fuera del campo de juegos
+        if(x < 0 || x > 7 || y < 0 || y > 7) {
+            return false;
+        }
+
+        //Sexto fallo: Ya otra pieza se encuentra en esa posición
+        this.pieces.forEach(piece => {
+            if(x === piece.x && y === piece.y) {
+                return false;
+            }
+        });
+
+        //Se retorna true si despues de todas las verificaciones
+        //el movimiento resulta ser válido
+        return true;
+    }
+
+    pieceAt(x, y) {
+        //Busca una pieza de acuerdo a la ubicación proveída
+        let foundPiece = null;
+        this.pieces.forEach(piece => {
+            if(piece.x === x && piece.y === y) {
+                foundPiece = piece;
+            }
+        });
+        return foundPiece;
+    }
+
+    possibleMoves(pieceName) {
+        //Hace una lista de posibles movimientos por el tipo de pieza dada
+        let validMoves = [];
+        this.pieces.forEach(piece => {
+            if(piece.name === pieceName) {
+                validMoves = validMoves.concat(piece.possibleMoves);
+            }
+        });
+        return validMoves;
+    }
+
+    checkVictory(register=true) {
+        //Después de cada movimiento esta función será llamada para verificar si el juego acabó
+        //Primero verifica si el zorro se encuentra encerrado, lo que significaría que los cazadores ganaron
+        //Luego verifica si los cazadores se encuentran atascados, lo que significaría que el zorro ganó
+        //Por último se verifica si el zorro alcanzó el final del tablero, lo que indicaría que el zorro ganó
+
+        if(this.possibleMoves("Fox").length === 0) {
+            if(register) {
+                notify("info", `${nationalName("Hunter", true)} wins!`);
+                this.addVictory("Hunter");
+            }
+            return "Hunter";
+        } else if(this.possibleMoves("Hunter").length === 0) {
+            if(register) {
+                notify("info", `${nationalName("Fox", true)} wins!`)
+            }
+            return "Fox";
+        } else {
+            this.pieces.forEach(piece => {
+                if(piece.name === "Fox" && piece.y === 0) {
+                    if(register) {
+                        notify("info", `${nationalName("Fox", true)} wins!`);
+                    }
+                    return "Fox";
+                }
+            });
+        }
+        return "";
+    }
+
+    addVictory(piece) {
+        //Actualiza el contador de victorias para el jugador ganador
+        this.gameover = true;
+        const ourCounter = document.getElementById(`win-${piece}`);
+        const ourWins = Number(ourCounter.innerHTML) + 1;
+        ourCounter.innerHTML = ourWins;
+        this.calculateVictoryRatio();
+        if(document.getElementById("controls-show-gameover").checked) {
+            setTimeout(generateNewBoard(), 1000);
+        } else {
+            generateNewBoard();
+        }
+    }
 }
 
 //Clase Piece es la clase padre que ayuda a controlar ambas clases de piezas (fox and hunters)
@@ -44,7 +151,7 @@ class Piece {
         }
         else {
             //Notifica que el movimiento es inválido
-            notify("Warn", "Invalid Move");
+            notify("warn", "Movimiento no valido");
         }
     }
 }
@@ -164,7 +271,7 @@ function generateNewBoard() {
     if(x_fox === 3) {x_fox-=1;}
     if(x_fox === 5) {x_fox-=1;}
     if(x_fox === 7) {x_fox-=1;}
-    
+
     //Se crea el tablero
     board = new Board([
         new Fox(x_fox,7),

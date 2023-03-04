@@ -16,6 +16,8 @@
     /*--bars-color: #F8F9F9;*/
     --bars-color: rgba(240, 240, 240, 0.75);
     --txt-main-color: #000000;
+    --hunter-color: rgb(255, 99, 71);
+    --fox-color: rgb(255, 165, 0);
 }
 
 * {
@@ -141,7 +143,7 @@ span.fox {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: orange;
+    background-color: var(--fox-color);
 }
 
 span.fox img {
@@ -157,7 +159,7 @@ span.hunter {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: tomato;
+    background-color: var(--hunter-color);
 }
 
 span.hunter img {
