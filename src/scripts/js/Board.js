@@ -114,6 +114,35 @@ class Board {
             generateNewBoard();
         }
     }
+
+    calculateVictoryRatio() {
+        //Calculate a new win ratio
+        const foxCounter = document.getElementById("win-Fox");
+        const foxWins = Number(foxCounter.innerHTML);
+        const hunterCounter = document.getElementById("win-Hunter");
+        const hunterWins = Number(hunterCounter.innerHTML);
+        const ratioElement = document.getElementById("win-ratio");
+        if(foxWins === 0 || hunterWins === 0) {
+            return;
+        }
+        if(foxWins > hunterWins) {
+            const ratio = foxWins / hunterWins;
+            if(ratio !== Math.floor(ratio)) {
+                ratioElement.innerText = `1:${ratio.toFixed(2)}`;
+            } else {
+                ratioElement.innerText = `1:${ratio}`;
+            }
+        } else if(hunterWins > foxWins) {
+            const ratio = hunterWins / foxWins;
+            if(ratio !== Math.floor(ratio)) {
+                ratioElement.innerText = `${ratio.toFixed(2)}:1`;
+            } else {
+                ratioElement.innerText = `${ratio}:1`;
+            }
+        } else {
+            ratioElement = `1:1`;
+        }
+    }
 }
 
 //Clase Piece es la clase padre que ayuda a controlar ambas clases de piezas (fox and hunters)
