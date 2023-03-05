@@ -1,3 +1,16 @@
+function mainAILoop() {
+    if(board.gameover) {
+        return;
+    }
+    nextAIMove(false);
+}
+
+function nextAIMove() {
+    if(board.currentTurn === "Fox") {
+        foxIA.makeMove();
+    }
+}
+
 //Superclase
 class IA {
     constructor() {
@@ -16,7 +29,7 @@ class IA {
     }
 
     terminalScore(boardScore) {
-        const victory = boardState.checkVictory(false);
+        const victory = board.checkVictory(false);
         if(victory === "") {
             return 0;
         }
@@ -51,7 +64,7 @@ class IA {
         const pieces = [];
         currentBoard.pieces.forEach(piece => {
             if(piece.name === currentBoard.currentTurn) {
-                animals.push(animal);
+                pieces.push(piece);
             }
         });
         if(root) {
