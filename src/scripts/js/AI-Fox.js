@@ -19,7 +19,11 @@ class IA {
 
     makeMove() {
         //Profundidad del algoritmo
-        const depth = 6;
+        let depth = 1;
+        do {
+            depth = Math.floor(Math.random() * 6);
+        }while(depth>6 || depth<1);
+        console.log("Profundidad: " + depth);
         if(isNaN(depth) || Number(depth) < 1 || Number(depth) > 6) {
             window.alert("Error: La profundidad de algoritmo es inválida");
             return;

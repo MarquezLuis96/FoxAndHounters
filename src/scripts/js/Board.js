@@ -169,6 +169,7 @@ class Piece {
             //Actualiza el turno
             place.currentTurn = place.currentTurn === "Fox" ? "Hunter" : "Fox";
             place.focussedPiece = null;
+            /*console.log("Focus on: " + board.focussedPiece);*/
 
             if(place === board) {
                 //Se actualiza la tabla
@@ -177,10 +178,12 @@ class Piece {
                 board.checkVictory();
 
             }
+            return true;
         }
         else {
             //Notifica que el movimiento es inválido
             notify("warn", "Movimiento no valido");
+            return false;
         }
     }
 }
@@ -289,7 +292,7 @@ function generateNewBoard() {
     //inicialmente 8 porque son 8 posiciones en x dentro del tablero
     //
     //Se hace 8 veces para obtener mayor aleatoriedad
-    var x_fox
+    var x_fox;
     for(var i=8; i >= 0; i--) {
         x_fox = Math.floor(Math.random() * 8);
         x_fox = Math.floor(Math.random()*(8-(x_fox-1))+i);
@@ -314,5 +317,41 @@ function generateNewBoard() {
 }
 
 function updateBoard() {
-    //
+    //Quita las fichas
+    for(let i = 0; i < 8; i++) {
+        for(let j = 0; j < 8; j++) {
+            document.getElementById(`pos-${i}-${j}`).innerHTML = "<!--Game Piece inside-->";
+        }
+    }
+
+    //Pone las fichas
+    board.pieces.forEach((piece, index) => {
+        if(index === 0) {
+            document.getElementById(`pos-${piece.x}-${piece.y}`).innerHTML = `
+                <!--Game Piece inside-->
+                <span id="Fox" class="fox box-border">
+                    <img src="./src/img/fox/fox-1.png" alt="fox or zorro" srcset="">
+                </span>
+            `;
+        }
+        else {
+            document.getElementById(`pos-${piece.x}-${piece.y}`).innerHTML = `
+                <!--Game Piece inside-->
+                <span id="Hunter-${index}" class="hunter box-border">
+                    <img src="./src/img/hunter/hunter-1.png" alt="hunter or cazador" srcset="">
+                </span>
+            `;
+        }
+    });
+
+    //Agrega los listeners
+    board.pieces.forEach((piece, index)=> {
+        if(index !== 0) {
+            document.getElementById(`Hunter-${index}`).onclick = () => {
+                /*window.alert(`Hunter-${i}: Me has tocado!`);*/
+                board.focussedPiece = index;
+                console.log("Focus on: " + board.focussedPiece);
+            }
+        }
+    });
 }
