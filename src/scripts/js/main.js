@@ -13,7 +13,7 @@ function setuptListeners() {
                         mainAILoop();
                     }
                     else {
-                        window.alert("No puedes realizar ese movimiento");
+                        window.alert("Hunters Win!");
                     }
                 }
             }

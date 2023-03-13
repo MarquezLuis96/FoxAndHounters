@@ -20,9 +20,22 @@ class IA {
     makeMove() {
         //Profundidad del algoritmo
         let depth = 1;
+        let n = 0;
         do {
-            depth = Math.floor(Math.random() * 6);
-        }while(depth>6 || depth<1);
+            n = Math.floor(Math.random() * 6);
+            if(n >= 1 && n <= 6) {
+                depth = n;
+            }
+        }while(n > 6 || n < 1);
+        // let sumatoria = 0;
+        // let n = 0;
+        // for(let a = 0; a < 3; a++) {
+        //     do {
+        //         n = Math.floor(Math.random() * 6);
+        //     }while(n > 6 || n < 1);
+        //     sumatoria += n;
+        // }
+        // depth = Math.ceil((sumatoria)/10);
         console.log("Profundidad: " + depth);
         if(isNaN(depth) || Number(depth) < 1 || Number(depth) > 6) {
             window.alert("Error: La profundidad de algoritmo es inválida");
@@ -83,10 +96,41 @@ class IA {
                     newBoard.pieceAt(piece.x, piece.y).moveTo(move.x, move.y, newBoard);
                     const scores = this.evaluateMinimax(newBoard, depth - 1 );
 
-                    if(scores.lowest > highestSoFar) {
-                        highestSoFar = scores.lowest;
-                        bestPiece = piece;
-                        bestMove = move;
+                    if(piece.y >= 0 && piece.y <= 3) {
+                        /* Rangos cortos */
+                        /* MiniMax sesgado*/
+                        console.log("Rango medio - depth = " + depth);
+                        if (scores.lowest > highestSoFar) {
+                            highestSoFar = scores.lowest
+                            bestPiece = piece
+                            bestMove = move
+                            averageScoreOfBestMove = this.average(scores.all)
+                        } else if (scores.lowest === highestSoFar) {
+                            const averageThisMove = this.average(scores.all)
+                            if (averageThisMove > averageScoreOfBestMove) {
+                                bestPiece = piece
+                                bestMove = move
+                                averageScoreOfBestMove = averageThisMove
+                            }
+                        }
+                    } else if(piece.y >= 0 && piece.y <= 5) {
+                        /* Rangos medios */
+                        /* MiniMax promedio*/
+                        console.log("Rango alto - depth = " + depth);
+                        if (this.average(scores.all) > highestSoFar) {
+                            highestSoFar = this.average(scores.all)
+                            bestPiece = piece
+                            bestMove = move
+                        }
+                    } else if(piece.y >= 0 && piece.y <= 7) {
+                        /* Rangos largos*/
+                        /* MiniMax puro*/
+                        console.log("Rango bajo - depth = " + depth);
+                        if(scores.lowest > highestSoFar) {
+                            highestSoFar = scores.lowest;
+                            bestPiece = piece;
+                            bestMove = move;
+                        }
                     }
                 });
             });

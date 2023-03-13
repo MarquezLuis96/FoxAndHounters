@@ -38,15 +38,16 @@ class Board {
         }
 
         //Sexto fallo: Ya otra pieza se encuentra en esa posición
-        this.pieces.forEach(piece => {
-            if(x === piece.x && y === piece.y) {
-                return false;
+        let ok = true;
+        this.pieces.forEach(p => {
+            if(x === p.x && y === p.y) {
+                ok = false;
             }
         });
 
         //Se retorna true si despues de todas las verificaciones
         //el movimiento resulta ser válido
-        return true;
+        return ok;
     }
 
     pieceAt(x, y) {
@@ -79,20 +80,20 @@ class Board {
 
         if(this.possibleMoves("Fox").length === 0) {
             if(register) {
-                notify("info", `${nationalName("Hunter", true)} wins!`);
+                window.alert(`Hunters wins!`);
                 this.addVictory("Hunter");
             }
             return "Hunter";
         } else if(this.possibleMoves("Hunter").length === 0) {
             if(register) {
-                notify("info", `${nationalName("Fox", true)} wins!`)
+                window.alert(`Fox wins!`)
             }
             return "Fox";
         } else {
             this.pieces.forEach(piece => {
                 if(piece.name === "Fox" && piece.y === 0) {
                     if(register) {
-                        notify("info", `${nationalName("Fox", true)} wins!`);
+                        window.alert(`Fox wins!`);
                     }
                     return "Fox";
                 }
@@ -182,7 +183,7 @@ class Piece {
         }
         else {
             //Notifica que el movimiento es inválido
-            notify("warn", "Movimiento no valido");
+            window.alert("Movimiento no valido o ficha no seleccionada");
             return false;
         }
     }
@@ -350,7 +351,7 @@ function updateBoard() {
             document.getElementById(`Hunter-${index}`).onclick = () => {
                 /*window.alert(`Hunter-${i}: Me has tocado!`);*/
                 board.focussedPiece = index;
-                console.log("Focus on: " + board.focussedPiece);
+                /*console.log("Focus on: " + board.focussedPiece);*/
             }
         }
     });
